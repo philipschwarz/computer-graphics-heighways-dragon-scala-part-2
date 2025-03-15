@@ -13,6 +13,8 @@ import dragon.functionalcore.Direction.{East, North, South, West}
 
 case class Point(x: Float, y: Float)
 
+type Radians = Double
+
 extension (p: Point)
 
   def deviceCoords(panelHeight: Int): (Int, Int) =
@@ -25,10 +27,10 @@ extension (p: Point)
       case East  => Point(p.x + amount, p.y)
       case West  => Point(p.x - amount, p.y)
 
-  def rotate(rotationPoint: Point, rotationAngle: Double): Point =
-    val cos = math.cos(rotationAngle).toFloat
-    val sin = math.sin(rotationAngle).toFloat
-    val rp = rotationPoint
+  def rotate(rotationCentre: Point, angle: Radians): Point =
+    val cos = math.cos(angle).toFloat
+    val sin = math.sin(angle).toFloat
+    val rp = rotationCentre
     val pointMatrix = MatrixFactory[1, 3, Float].rowMajor(p.x, p.y, 1.0)
     val rotationMatrix = MatrixFactory[3, 3, Float].fromTuple(
       (cos, sin, 0.0f),
@@ -39,5 +41,5 @@ extension (p: Point)
     Point(resultMatrix(0, 0), resultMatrix(0, 1))
 
 extension (points: List[Point])
-  def rotate(rotationPoint: Point, rotationAngle: Double) : List[Point] =
-    points.map(point => point.rotate(rotationPoint, rotationAngle))    
+  def rotate(rotationCentre: Point, angle: Radians) : List[Point] =
+    points.map(point => point.rotate(rotationCentre, angle))    
