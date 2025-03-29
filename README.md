@@ -1,4 +1,4 @@
-Scala code for slide deck [Drawing Heighway’s Dragon - Part II - Recursive Function Simplification - From 2^n Recursive Invocations To n Tail-Recursive Invocations Exploiting Self-Similarity](https://fpilluminated.com/deck/257)
+Scala code for slide deck [Drawing Heighway’s Dragon - Part II - Recursive Function Simplification - From 2^n Recursive Invocations To n Tail-Recursive Invocations Exploiting Self-Similarity](https://fpilluminated.org/deck/257)
 
 ---
 
