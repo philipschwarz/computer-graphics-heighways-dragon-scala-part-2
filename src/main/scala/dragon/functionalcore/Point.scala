@@ -2,14 +2,11 @@ package dragon.functionalcore
 
 import matr.{Matrix, MatrixFactory}
 // Bring bundled implementations in scope
-import matr.MatrBundle.given
+import dragon.functionalcore.Direction.{East, North, South, West}
 import matr.TupleSupport.given
 import matr.dflt.DefaultMatrixFactory.given
 import matr.dflt.DefaultMatrixOps.given
 import matr.std.StandardOps.given
-
-import dragon.functionalcore.Direction
-import dragon.functionalcore.Direction.{East, North, South, West}
 
 case class Point(x: Float, y: Float)
 
@@ -28,17 +25,18 @@ extension (p: Point)
       case West  => Point(p.x - amount, p.y)
 
   def rotate(rotationCentre: Point, angle: Radians): Point =
-    val cos = math.cos(angle).toFloat
-    val sin = math.sin(angle).toFloat
-    val rp = rotationCentre
-    val pointMatrix = MatrixFactory[1, 3, Float].rowMajor(p.x, p.y, 1.0)
-    val rotationMatrix = MatrixFactory[3, 3, Float].fromTuple(
-      (cos, sin, 0.0f),
-      (-sin, cos, 0.0f),
-      (-rp.x * cos + rp.y * sin + rp.x, -rp.x * sin - rp.y * cos + rp.y, 1.0f)
+    val (c, ϕ) = (rotationCentre, angle)
+    val (cosϕ, sinϕ) = (math.cos(ϕ).toFloat, math.sin(ϕ).toFloat)
+    val rotationMatrix: Matrix[3,3,Float] = MatrixFactory[3, 3, Float].fromTuple(
+      (              cosϕ,                             sinϕ,               0f),
+      (             -sinϕ,                             cosϕ,               0f),
+      (-c.x * cosϕ + c.y * sinϕ + c.x,   -c.x * sinϕ - c.y * cosϕ + c.y,   1f)
     )
-    val resultMatrix: Matrix[1, 3, Float] = pointMatrix dot rotationMatrix
-    Point(resultMatrix(0, 0), resultMatrix(0, 1))
+    val rowVector: Matrix[1, 3, Float] = MatrixFactory[1, 3, Float].rowMajor(p.x, p.y, 1f)
+    val rotatedRowVector: Matrix[1, 3, Float] = rowVector dot rotationMatrix
+    val (x, y) = (rotatedRowVector(0, 0), rotatedRowVector(0, 1))
+    Point(x, y)
+
 
 extension (points: List[Point])
   def rotate(rotationCentre: Point, angle: Radians) : List[Point] =
