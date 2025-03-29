@@ -18,7 +18,7 @@ class DragonPanel(lineColour: Color, backgroundColour: Color) extends JPanel:
       val panelCentre = Point(panelWidth / 2, panelHeight / 2)
       panelCentre
         .translate(South, panelHeight / 7)
-        .translate(West, panelWidth / 5)
+        .translate(East, panelWidth / 5)
 
     def draw(line: Line): Unit =
       val (ax, ay) = line.start.deviceCoords(panelHeight)
@@ -35,4 +35,4 @@ class DragonPanel(lineColour: Color, backgroundColour: Color) extends JPanel:
     setBackground(backgroundColour)
     g.setColor(lineColour)
 
-    drawDragon(startPoint, age = 17, length = 1, direction = East)
+    drawDragon(startPoint, age = 20, length = 1, direction = East)
