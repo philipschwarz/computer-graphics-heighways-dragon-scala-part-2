@@ -21,12 +21,16 @@ extension (path: DragonPath)
     if age == 0 || path.size < 2 then path
     else path.plusRotatedCopy.grow(age - 1)
 
+  // simpler to read but less efficient because it uses append
   private def plusRotatedCopy1 =
-    path.reverse.rotate(rotationCentre = path.head, angle = ninetyDegreesClockwise) ++ path
+    path.reverse.rotate(rotationCentre = path.head, angle = ninetyDegreesClockwise)
+      ++ path
 
-  private def plusRotatedCopy =
+  // harder to read but more efficient because it uses a left fold
+  private def plusRotatedCopy: DragonPath =
     path.foldLeft(path): (growingPath, point) =>
-      point.rotate(rotationCentre = path.head, angle = ninetyDegreesClockwise) :: growingPath
+      point.rotate(rotationCentre = path.head, angle = ninetyDegreesClockwise)
+        :: growingPath
 
   def lines: List[Line] =
     if path.length < 2 then Nil
