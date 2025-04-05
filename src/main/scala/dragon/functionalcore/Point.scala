@@ -1,8 +1,7 @@
 package dragon.functionalcore
 
-import matr.{Matrix, MatrixFactory}
-// Bring bundled implementations in scope
 import dragon.functionalcore.Direction.{East, North, South, West}
+import matr.{Matrix, MatrixFactory}
 import matr.TupleSupport.given
 import matr.dflt.DefaultMatrixFactory.given
 import matr.dflt.DefaultMatrixOps.given
